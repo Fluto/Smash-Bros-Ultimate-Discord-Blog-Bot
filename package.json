@@ -1,0 +1,20 @@
+{
+    "name": "smash_bros_ultimate_discord_blog_bot",
+    "version": "1.0.0",
+    "description": "A discord bot to post new Smash Bros Ultimate posts.",
+    "main": "start.js",
+    "scripts": {
+        "start": "nodemon ./start.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Fluto/Smash-Bros-Ultimate-Discord-Blog-Bot.git"
+    },
+    "author": "Fluto",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Fluto/Smash-Bros-Ultimate-Discord-Blog-Bot/issues"
+    },
+    "homepage": "https://github.com/Fluto/Smash-Bros-Ultimate-Discord-Blog-Bot#readme"
+}

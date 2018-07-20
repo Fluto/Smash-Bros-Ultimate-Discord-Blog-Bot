@@ -1,23 +1,31 @@
 {
-    "name": "smash_bros_ultimate_discord_blog_bot",
-    "version": "1.0.0",
-    "description": "A discord bot to post new Smash Bros Ultimate posts.",
-    "main": "start.js",
-    "scripts": {
-        "start": "nodemon --ignore 'tmp/' -e js ./start.js",
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/Fluto/Smash-Bros-Ultimate-Discord-Blog-Bot.git"
-    },
-    "author": "Fluto",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/Fluto/Smash-Bros-Ultimate-Discord-Blog-Bot/issues"
-    },
-    "homepage": "https://github.com/Fluto/Smash-Bros-Ultimate-Discord-Blog-Bot#readme",
-    "dependencies": {
-        "jsonfile": "^4.0.0"
-    }
+  "name": "smash_bros_ultimate_discord_blog_bot",
+  "version": "1.0.0",
+  "description": "A discord bot to post new Smash Bros Ultimate posts.",
+  "main": "start.js",
+  "scripts": {
+    "start": "nodemon --ignore 'tmp/' -e js ./start.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fluto/Smash-Bros-Ultimate-Discord-Blog-Bot.git"
+  },
+  "author": "Fluto",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Fluto/Smash-Bros-Ultimate-Discord-Blog-Bot/issues"
+  },
+  "homepage": "https://github.com/Fluto/Smash-Bros-Ultimate-Discord-Blog-Bot#readme",
+  "dependencies": {
+    "discord.js": "^11.3.2",
+    "jsonfile": "^4.0.0",
+    "lodash": "^4.17.10",
+    "mkdirp": "^0.5.1",
+    "nodemon": "^1.18.3",
+    "request": "^2.87.0",
+    "striptags": "^3.1.1",
+    "system-sleep": "^1.3.6",
+    "tinyurl": "^1.1.2"
+  }
 }

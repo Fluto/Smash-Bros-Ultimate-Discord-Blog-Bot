@@ -13,8 +13,9 @@ var client;
 var channelId;
 var storedSmash;
 
-function setup(_client, channelId) {
+function setup(_client, _channelId) {
     client = _client;
+    channelId = _channelId
 
     jsonfile.readFile(JSON_LOCATION + JSON_FILE_NAME, function(err, obj) {
         if (!err) {
@@ -31,7 +32,7 @@ function fetchJSONLoop() {
 
 function fetchJSON() {
     request({
-        url: helper.smashURL,
+        url: helper.SMASH_JSON_URL,
         json: true
     }, function(error, response, body) {
         if (!error && response.statusCode === 200) {
@@ -67,7 +68,6 @@ function processChanges(newSmash) {
     var latestChunk = newSmash[0].id;
     var latestStoredChunk = storedSmash[0].id;
     const hasNewData = (latestChunk != latestStoredChunk);
-    console.log(hasNewData);
 
     if (!hasNewData) return;
 
@@ -77,11 +77,10 @@ function processChanges(newSmash) {
         return;
 
     _.forEach(chunks, function(chunk) {
-
-        var msg = SmashFormatter.formatChunk(chunk);
-
-        client.channels.get(channelID).send({ embed: msg });
-        //const hasNewData = _.some(storedSmash, { id: latestChunk });
+        var data = SmashFormatter.formatChunk(chunk);
+        _.forEach(data, function(msg) {
+            client.channels.get(channelId).send(msg);
+        });
     });
 }
 
@@ -97,12 +96,9 @@ function getNewChunks(newData, lastStoredChunk) {
         if (chunkIndex > newData.length)
             break;
 
-        console.log("NEXT");
         if (newData[chunkIndex] == null || newData[chunkIndex].id == null)
             continue;
 
-        console.log(newData[chunkIndex].id);
-        //console.log(chunkID);
         chunkID = newData[chunkIndex].id;
     }
 

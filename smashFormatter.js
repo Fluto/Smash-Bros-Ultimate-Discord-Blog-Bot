@@ -1,9 +1,9 @@
+const _ = require("lodash");
 const Discord = require("discord.js");
 const striptags = require('striptags');
 const helper = require("./helper");
-var sleep = require('system-sleep');
-const _ = require("lodash");
-var tinyUrl = require('tinyurl');
+const sleep = require('system-sleep');
+const tinyUrl = require('tinyurl');
 
 const TITLE_REGEX = /[0-9]{3}\s?\-?\s?/;
 const GRAB_URL = /<a href=\"(.*)\">/;

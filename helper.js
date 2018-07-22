@@ -1,7 +1,7 @@
 module.exports = {
-    CLIENT_TOKEN: "NDY5MTAzOTg2MTIxOTAwMDMy.DjC7uw.SWNVbLbN0H6fqVA8hUN4u_rpANg",
-    CLIENT_ID: 469103986121900032,
-    botInvite: "https://discordapp.com/oauth2/authorize?client_id=469103986121900032&scope=bot&permissions=1074125824",
+    // discord settings
+    CLIENT_TOKEN: "<CLIENT_TOKEN>",
+    BOT_INVITE: "https://discordapp.com/oauth2/authorize?client_id=<CLIENT_ID>&scope=bot&permissions=1074125824",
 
     // images
     SMASH_BALL_GIF: "https://i.imgur.com/5ZvD5Pr.gif",
@@ -18,4 +18,11 @@ module.exports = {
     SMASH_JSON_URL: "https://www.smashbros.com/data/bs/en_GB/json/en_GB.json",
     SMASH_URL: "https://www.smashbros.com",
     YOUTUBE_URL: "https://www.youtube.com/",
+
+    // json storage
+    JSON_LOCATION: "./tmp/",
+    JSON_FILE_NAME: "smash.json",
+
+    // polling
+    POLL_TIME: 1000 * 60 * 10, // 10 Minutes
 }

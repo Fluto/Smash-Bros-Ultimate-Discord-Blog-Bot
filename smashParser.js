@@ -7,8 +7,7 @@ function processChanges(storedSmash, newSmash) {
     var latestStoredChunk = storedSmash[0].id;
     
     const hasNewData = (latestChunk != latestStoredChunk);
-
-    console.log("Checking for new data, any? " + hasNewData);
+    
     if (!hasNewData) return [];
 
     var chunks = getNewChunks(newSmash, latestStoredChunk);
@@ -44,7 +43,7 @@ function getNewChunks(newData, lastStoredChunk) {
         chunkID = newData[chunkIndex].id;
     }
 
-    return chunks;1
+    return chunks;
 }
 
 module.exports = {

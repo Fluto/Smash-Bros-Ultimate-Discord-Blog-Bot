@@ -15,7 +15,7 @@ function formatChunk(chunk) {
     const message = new Discord.RichEmbed()
     var res = [];
 
-    message.setFooter("Direct from Papa Sakurai", helper.SMASH_BALL_GIF)
+    message.setFooter(helper.FOOTER_MESSAGE, helper.SMASH_BALL_GIF)
     message.setThumbnail(helper.SMASH_BALL_PNG);
 
     // store the title

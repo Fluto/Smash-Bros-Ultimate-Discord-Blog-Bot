@@ -112,8 +112,12 @@ function fetchJSON(newSmashCallback) {
         json: true
     }, function(error, response, newSmash) {
         if (!error && response.statusCode === 200) {
-            if (storedSmash != null && newSmash[0].id == storedSmash[0].id)
+            if (storedSmash != null && newSmash[0].id == storedSmash[0].id){
+                // make sure to call the callback
+                if (newSmashCallback)
+                    newSmashCallback(newSmash);
                 return;
+            }
 
             createTempFolder(() => {
                 // store file
@@ -126,9 +130,6 @@ function fetchJSON(newSmashCallback) {
                             storedSmash = newSmash;
                             return;
                         }
-                        
-                        if (newSmashCallback)
-                            newSmashCallback(newSmash);
 
                         var messageData = smashP.processChanges(storedSmash, newSmash);
                         
@@ -138,6 +139,9 @@ function fetchJSON(newSmashCallback) {
                         
                         console.log("New Data, sending to " + channels.length + " channels");
                         sendMessages(messageData);
+                        
+                        if (newSmashCallback)
+                            newSmashCallback(newSmash);
                     }
                 });
             });

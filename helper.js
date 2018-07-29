@@ -3,6 +3,7 @@ module.exports = {
     CLIENT_TOKEN: "<CLIENT_TOKEN>",
     BOT_INVITE: "https://discordapp.com/oauth2/authorize?client_id=<CLIENT_ID>&scope=bot&permissions=1074125824",
     BOT_PREFIX: "!",
+    FOOTER_MESSAGE: "Direct from Papa Sakurai",
 
     // images
     SMASH_BALL_GIF: "https://i.imgur.com/5ZvD5Pr.gif",

@@ -43,6 +43,12 @@ client.on('message', msg => {
     }
 });
 
+client.on("error", (ex) => {
+    // Never reached even without the interval above
+    console.error("ERROR " + ex);
+    client.login(helper.CLIENT_TOKEN);
+});
+
 const commands = {
     "addChannel": "This will add this channel on to the smash post list.",
     "removeChannel": "This will remove this channel from the smash post list.",

@@ -34,7 +34,6 @@ client.on('message', msg => {
 
 client.on('message', msg => {
     if (msg.content.toLowerCase() === helper.BOT_PREFIX + 'help') {
-        
         const message = new discord.RichEmbed();
         message.setColor(0xFFAA00);
         _.forEach(commands, (info, command) => message.addField(helper.BOT_PREFIX + command, info));

@@ -6,9 +6,12 @@ const helper = require("./helper");
 const jsonfile = require('jsonfile')
 const mkdirp = require('mkdirp');
 
+const MAX_BATCH_POSTS = 5; // if there are more than 5 posts batched to be released, then something may have gone wrong :(
+
 var client;
 var channels = [];
 var storedSmash;
+var storedSmashId;
 
 function setup(_client) {
     client = _client;
@@ -21,6 +24,7 @@ function startSmash(){
     jsonfile.readFile(helper.JSON_LOCATION + helper.JSON_SMASH_FILE_NAME, function(err, obj) {
         if (!err) {
             storedSmash = obj;
+            storedSmashId = getLastestId(storedSmash);
         }
 
         fetchJSONLoop();
@@ -88,22 +92,40 @@ function latest(channelId) {
     }
 
     // first call fetchJSON to make sure we don't double up with the callback above
-    const testId = storedSmash[0].id
+    const testId = storedSmashId;
     fetchJSON((newSmash) =>{
+        var lastestId = getLastestId(newSmash);
         // The bot already posted this
-        if (newSmash[0].id !== testId)
+        if (lastestId !== testId)
             return;
 
-        var messages = smashF.formatChunk(newSmash[0]);
+        var messages = smashF.formatChunk(newSmash[lastestId]);
         _.forEach(messages, (msg) => client.channels.get(channelId).send(msg));
     });
 }
 
-
-
 function fetchJSONLoop() {
     fetchJSON();
     setTimeout(fetchJSONLoop, helper.POLL_TIME);
+}
+
+function smashBlogToSmashDictionary(blog){
+    var smashDict = {};
+
+    if (blog == null)
+        return;
+
+    _.forEach(blog, (blogEntry) => {
+        if (blogEntry.id == null || smashDict[blogEntry.id] != null)
+            return;
+        smashDict[blogEntry.id] = blogEntry;
+    });
+
+    return smashDict;
+}
+
+function getLastestId(smash){
+    return _.max(Object.keys(smash));
 }
 
 function fetchJSON(newSmashCallback) {
@@ -112,7 +134,10 @@ function fetchJSON(newSmashCallback) {
         json: true
     }, function(error, response, newSmash) {
         if (!error && response.statusCode === 200) {
-            if (storedSmash != null && newSmash[0].id == storedSmash[0].id){
+            newSmash = smashBlogToSmashDictionary(newSmash);
+            var newestId = getLastestId(newSmash);
+
+            if (storedSmash != null && newestId == storedSmashId){
                 // make sure to call the callback
                 if (newSmashCallback)
                     newSmashCallback(newSmash);
@@ -126,14 +151,16 @@ function fetchJSON(newSmashCallback) {
                         console.log("Cannot create file " + helper.JSON_LOCATION + helper.JSON_SMASH_FILE_NAME)
                         console.log(err);
                     } else {
-                        if (!storedSmash) {
+                        if (!storedSmash == null || storedSmashId == null) {
                             storedSmash = newSmash;
+                            storedSmashId = newestId;
                             return;
                         }
 
-                        var messageData = smashP.processChanges(storedSmash, newSmash);
+                        var messageData = smashP.processChanges(storedSmashId, newSmash, newestId);
                         
-                        storedSmash = newSmash;                            
+                        storedSmash = newSmash;        
+                        storedSmashId = newestId;                    
                         if  (messageData == null || messageData.length == 0)
                             return;
                         
@@ -152,6 +179,11 @@ function fetchJSON(newSmashCallback) {
 }
 
 function sendMessages(messageData){
+    if (messageData.length >= MAX_BATCH_POSTS){
+        console.log("Too many smash posts, here are the details");
+        console.log(messageData);
+        return;
+    }
     // for each discord channel
     _.forEach(channels, function(channelId){
         // for each smash chunk

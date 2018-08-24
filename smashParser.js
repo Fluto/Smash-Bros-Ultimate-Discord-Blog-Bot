@@ -1,16 +1,12 @@
 const _ = require("lodash");
 const SmashFormatter = require('./smashFormatter.js');
 
-function processChanges(storedSmash, newSmash) {
-    // If we haven't loaded a file before, then let's just store it
-    var latestChunk = newSmash[0].id;
-    var latestStoredChunk = storedSmash[0].id;
-    
-    const hasNewData = (latestChunk != latestStoredChunk);
+function processChanges(lastSmashId, newSmash, newestId) {
+    const hasNewData = (lastSmashId != newestId);
     
     if (!hasNewData) return [];
 
-    var chunks = getNewChunks(newSmash, latestStoredChunk);
+    var chunks = getNewChunks(lastSmashId, newSmash, newestId);
 
     if (chunks == null)
         return [];
@@ -21,26 +17,21 @@ function processChanges(storedSmash, newSmash) {
         messageData.push(data);
     });
 
-    // reverse the messages to make sure they arrive oldest to newest
-    return _(messageData).reverse().value()
+    return messageData
 }
 
-function getNewChunks(newData, lastStoredChunk) {
+function getNewChunks(lastSmashId, newData) {
     var chunks = [];
+    
+    var chunkID = lastSmashId;
+    while (chunkID !== null) {
+        chunks.push(newData[chunkID]);
 
-    var chunkIndex = 0;
-    var chunkID = newData[chunkIndex].id;
-    while (chunkID !== lastStoredChunk) {
-        chunks.push(chunkID = newData[chunkIndex]);
-        chunkIndex++;
-
-        if (chunkIndex > newData.length)
-            break;
-
-        if (newData[chunkIndex] == null || newData[chunkIndex].id == null)
+        // conditional breaks so we don't go overboard if something goes wrong
+        if (newData[chunkID] == null || newData[chunkID].id == null)
             continue;
-
-        chunkID = newData[chunkIndex].id;
+        
+        chunkID = newData[chunkID].next;
     }
 
     return chunks;

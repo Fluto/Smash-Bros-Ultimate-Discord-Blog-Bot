@@ -44,7 +44,7 @@ client.on('message', msg => {
 
 client.on("error", (ex) => {
     // Never reached even without the interval above
-    console.error("ERROR " + ex);
+    console.error("ERROR " + JSON.stringify(ex));
     client.login(helper.CLIENT_TOKEN);
 });
 

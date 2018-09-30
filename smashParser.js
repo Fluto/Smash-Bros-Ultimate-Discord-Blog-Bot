@@ -23,7 +23,7 @@ function processChanges(lastSmashId, newSmash, newestId) {
 function getNewChunks(lastSmashId, newData) {
     var chunks = [];
     
-    var chunkID = lastSmashId;
+    var chunkID = newData[lastSmashId].next;
     while (chunkID !== null) {
         chunks.push(newData[chunkID]);
 
